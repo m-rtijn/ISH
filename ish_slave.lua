@@ -1,12 +1,19 @@
--- ISH Protocol (Slave)
+-- ISH Protocol (daemon)
 
 -- Get the side of the modem
---print("modem side = ")
---modem_side = io.read()
-modem_side = "right"
+print("modem side = ")
+modem_side = io.read()
 print("Hostname = ")
 hostname = io.read()
 protocol = "ISH"
+
+-- Check the modem
+local modem = peripheral.wrap(modem_side)
+if modem.isWireless() then
+  print("Selected modem is wireless.")
+else
+  print("Selected modem is wired and will not work with turtles.")
+end
 
 -- Check if rednet is open
 print("Checking if rednet is open... " .. tostring(rednet.isOpen(modem_side)))
@@ -26,11 +33,11 @@ rednet.host(protocol, hostname)
 print("Start listening...")
 while true do
   senderID, args, protocol = rednet.receive(protocol, 600)
-  print("DEBUG: Received cmd from ID " .. tostring(senderID) .. " on protocol " .. tostring(protocol))
-  print(table.getn(args))
-  for i,v in ipairs(args) do
-    print(v)
-  end
+  --print("DEBUG: Received cmd from ID " .. tostring(senderID) .. " on protocol " .. tostring(protocol))
+  --print(table.getn(args))
+  --for i,v in ipairs(args) do
+    --print(v)
+  --end
   if args[2] == nil then
     shell.run(args[1])
   elseif args[2] ~= nil then

@@ -1,2 +1,2 @@
 # ISH
-ISH: Insecure Shell, a SSH copy for the Minecraft ComputerCraft mod
+ISH: Insecure Shell, a SSH-like program for the Minecraft ComputerCraft mod
