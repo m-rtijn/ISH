@@ -1,13 +1,14 @@
 -- ISH Protocol (client)
 
 -- Get the side of the modem
-print("modem side = ")
+write("modem side = ")
 modem_side = io.read()
-print("Hostname = ")
+write("Hostname = ")
 hostname = io.read()
 protocol = "ISH"
 
 -- Check modem
+print("Checking modem...")
 local modem = peripheral.wrap(modem_side)
 if modem.isWireless() then
   print("Selected modem is wireless.")
@@ -29,18 +30,19 @@ end
 print("Registering hostname " .. hostname .. " on protocol " .. protocol)
 rednet.host(protocol, hostname)
 
--- ~Master Specific code~
+-- ~Client Specific code~
 
 -- Get the ID of the slave
-print("Slave = ")
+write("Slave = ")
 slave = io.read()
 slaveID = rednet.lookup(protocol, slave)
 
 while true do
-  print("<ish@" .. slave .. ">")
+  write("<ish@" .. slave .. "> ")
   remoteCmd = io.read()
   if remoteCmd == "exit" then
     break
+  end
   args = {}
   for arg in remoteCmd:gmatch("%w+") do
     table.insert(args, arg)
