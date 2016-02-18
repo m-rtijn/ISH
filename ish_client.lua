@@ -48,4 +48,12 @@ while true do
     table.insert(args, arg)
   end
   rednet.send(slaveID, args, protocol)
+  senderID, recvMsg, protocol = rednet.receive(protocol, 6000)
+  if (senderID == slaveID and recvMsg) then
+    print("Succes.")
+  else
+    print("ERROR: slave did not return succes.")
+  end
 end
+
+rednet.close()

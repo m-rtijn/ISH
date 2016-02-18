@@ -10,7 +10,8 @@ protocol = "ISH"
 -- Check the modem
 print("Checking modem...")
 local modem = peripheral.wrap(modem_side)
-if modem.isWireless() then
+wireless = modem.isWireless()
+if wireless then
   print("Selected modem is wireless.")
 else
   print("Selected modem is wired and will not work with turtles.")
@@ -34,21 +35,24 @@ rednet.host(protocol, hostname)
 print("Start listening...")
 while true do
   senderID, args, protocol = rednet.receive(protocol, 600)
-  --print("DEBUG: Received cmd from ID " .. tostring(senderID) .. " on protocol " .. tostring(protocol))
-  --print(table.getn(args))
-  --for i,v in ipairs(args) do
-    --print(v)
-  --end
-  print(args)
+  for i,v in ipairs(args) do
+    write(v .. " ")
+  end
   if args[2] == nil then
-    shell.run(args[1])
+    result = shell.run(args[1])
+    rednet.send(senderID, result, protocol)
   elseif args[2] ~= nil then
     if args[3] == nil then
-      shell.run(args[1], args[2])
+      resutl = shell.run(args[1], args[2])
+      rednet.send(senderID, result, protocol)
     elseif args[4] == nil then
-      shell.run(args[1], args[2], args[3])
+      result = shell.run(args[1], args[2], args[3])
+      rednet.send(senderID, result, protocol)
     end
   else
-    shell.run(args[1])
+    result = shell.run(args[1])
+    rednet.send(senderID, result, protocol)
   end
 end
+
+rednet.close()
