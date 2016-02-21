@@ -50,9 +50,9 @@ while true do
   rednet.send(slaveID, args, protocol)
   senderID, recvMsg, protocol = rednet.receive(protocol, 6000)
   if (senderID == slaveID and recvMsg) then
-    print("Succes.")
+    print("Success.")
   else
-    print("ERROR: slave did not return succes.")
+    print("ERROR: Slave did not return success.")
   end
 end
 
